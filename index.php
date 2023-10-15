@@ -20,16 +20,16 @@
         <div class="fontawesome-cog" id="icon"></div>
         <ul>
           <li>
-            <a href="./index.html">Inicio</a>
+            <a href="">Inicio</a>
           </li>
           <li>
-            <a href="./vistas/productos.html">Productos Nuevos</a>
+            <a href="./vistas/productos.php">Productos Nuevos</a>
           </li>
           <li>
-            <a href="./vistas/about.html">Acerca de</a>
+            <a href="./vistas/about.php">Acerca de</a>
           </li>
           <li>
-            <a href="./vistas/ubicacion.html">Ubicacion</a>
+            <a href="./vistas/ubicacion.php">Ubicacion</a>
           </li>
 
         </ul>
