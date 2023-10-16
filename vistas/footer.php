@@ -87,7 +87,7 @@
 
             $("form[id^='productForm']").on("submit", function(event) {
                 event.preventDefault();
-
+                var action = "updateProduct";
                 var formData = $(this).serialize();
 
                 $.ajax({
@@ -95,13 +95,31 @@
                     url: "../controllers/carritoController.php",
                     data: formData,
                     success: function(data) {
+
+
+                    }
+                });
+                $.ajax({
+                    method: "POST",
+                    url: "../controllers/mainController.php",
+                    data: {
+                        action: action,
+                        data:formData,
+                    },
+                    success: function(response) {
+                        console.log(response); // Imprime la respuesta en la consola
                         Swal.fire(
                             'Producto agregado con éxito!',
                             '',
                             'success'
-                        )
+                        );
+                    },
+                    error: function(error) {
+                        console.log(error); // Imprime errores en la consola
                     }
                 });
+
+
                 updateCartCount();
             });
         });

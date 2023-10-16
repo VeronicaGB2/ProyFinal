@@ -32,14 +32,19 @@ session_start();
                         <tr>
                             <td><?php echo $value['id']; ?></td>
                             <td><?php echo $value['nombre']; ?></td>
-                            <td><?php echo $value['precio']; ?></td>
-                            <td><?php echo $value['cantidad']; ?></td>
+                            <td id="price_<?php echo $value['id']; ?>"><?php echo $value['precio']; ?></td>
+
+                            <td>
+                                <input type="number" class="quantity" id="quantity" value="<?php echo $value['cantidad']; ?>" data-id="<?php echo $value['id']; ?>">
+                            </td>
                             <td>
                                 <button class="btn btn-danger remove" id="<?php echo $value['id']; ?>">Eliminar</button>
                             </td>
                         </tr>
-
-                        <?php $total_price = $total_price + $value['cantidad'] * $value['precio']; ?>
+                        <?php
+                        // Convertir a números antes de la operación aritmética
+                        $total_price = $total_price + (floatval($value['cantidad']) * floatval($value['precio']));
+                        ?>
 
 
 
@@ -49,21 +54,21 @@ session_start();
                         <td class="text-center" colspan="5">No se ha agregado ningun producto al carrito</td>
                     </tr>
                 <?php }
-
-
-
-
                 ?>
 
                 <tr>
                     <td colspan="2"></td>
                     <td>Total</td>
-                    <td><?php echo number_format($total_price, 2); ?></td>
+                    <td class="total-price" id="total-price"><?php echo number_format($total_price, 2); ?></td>
+
                     <td>
                         <button class="btn btn-warning clearall">Borrar todo</button>
+                        <button class="btn btn-success finalizarCompra" id="finalizarCompraBtn">Finalizar compra</button>
                     </td>
+
                 </tr>
             </table>
+
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
@@ -84,9 +89,30 @@ session_start();
                 });
             }
 
+            function updateTotalPrice() {
+                var newTotalPrice = 0;
+
+                $(".quantity").each(function() {
+                    var id = $(this).data("id");
+                    var quantity = $(this).val();
+                    var price = parseFloat($("#price_" + id).text());
+
+                    // Verifica si el precio es un número válido antes de sumarlo
+                    if (!isNaN(price)) {
+                        newTotalPrice += quantity * price;
+                    }
+                });
+
+                // Update the displayed total
+                $(".total-price").text(newTotalPrice.toFixed(2));
+            }
+
+
+
             updateCartCount();
 
             $(".remove").click(function() {
+                event.preventDefault();
                 var id = $(this).attr("id");
 
                 var action = "remove";
@@ -126,8 +152,30 @@ session_start();
             });
 
 
+            $(".quantity").on("change", function() {
+                var id = $(this).data("id");
+                var newQuantity = $(this).val();
+
+                // Envía una solicitud para actualizar la cantidad en el carrito
+                $.ajax({
+                    method: "POST",
+                    url: "../controllers/carritoController.php",
+                    data: {
+                        action: "updateQuantity",
+                        id: id,
+                        quantity: newQuantity
+                    },
+                    success: function(data) {
+                        updateCartCount();
+                        updateTotalPrice();
+                    }
+                });
+            });
+
+
             $(".clearall").click(function() {
 
+                event.preventDefault()
                 var action = "clear";
 
                 Swal.fire({
@@ -164,6 +212,51 @@ session_start();
 
 
             });
+
+            $(".finalizarCompra").click(function() {
+                event.preventDefault();
+                console.log("Entre");
+
+                // Obtén la información del carrito
+                var cartItems = [];
+                $(".quantity").each(function() {
+                    var id = $(this).data("id");
+                    var quantity = $(this).val();
+                    var price = parseFloat($("#price_" + id).text());
+
+                    cartItems.push({
+                        id: id,
+                        quantity: quantity,
+                        price: price
+                    });
+                });
+
+                // Envía la información al controlador para finalizar la compra
+                $.ajax({
+                    method: "POST",
+                    url: "../controllers/mainController.php",
+                    data: {
+                        action: "finCompra",
+                        cartItems: JSON.stringify(cartItems)
+                    },
+                    success: function(data) {
+
+                        Swal.fire(
+                            'Compra finalizada!',
+                            '',
+                            'success'
+                        ).then(() => {
+                            updateCartCount(); // Actualiza el contador de carrito
+                            updateTotalPrice(); // Actualiza el precio total
+                            location.reload();
+                        });
+
+
+
+                    }
+                });
+            });
+
         });
     </script>
     <?php include("footer.php"); ?>
