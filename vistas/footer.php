@@ -10,6 +10,7 @@
                         <ul class="kilimanjaro_social_links">
                             <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a></li>
                             <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a></li>
+                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a></li>
                             <li><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i> YouTube</a></li>
                             <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i> Linkedin</a></li>
                         </ul>
@@ -33,9 +34,9 @@
                             <div class="kilimanjaro_thumb">
                                 <img class="img-fluid" src="https://www.wradio.com.co/resizer/cfeoyTD9YahBRwYViwi3Sh1MWAU=/650x488/filters:quality(70)/cloudfront-us-east-1.images.arcpublishing.com/prisaradioco/E7MNWHCDDNHHVACI5WRESDIXXE.jpg" alt="">
                             </div>
-                            <a href="">Your Blog Title Goes Here</a>
-                            <p class="kilimanjaro_date">17 sep 2023</p>
-                            <p>Lorem ipsum dolor sit amet, consectetur</p>
+                            <a href="">Adios a las gomitas??</a>
+                            <p class="kilimanjaro_date">17 OCT 2023</p>
+                            <p>Gracias a las nuevas experiencias ...</p>
                         </div>
                     </div>
                 </div>

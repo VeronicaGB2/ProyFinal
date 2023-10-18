@@ -58,6 +58,16 @@ h3 {
     padding-bottom: 100px;
 }
 
+.contenedor__about img{ /* altura y ancho de las imagenes de about*/
+    width: 400px;
+    height: 220px;
+
+}
+
+.About{
+    display: flex;
+}
+
 
 /* CARDS */
 

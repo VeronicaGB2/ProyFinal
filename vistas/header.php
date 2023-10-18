@@ -23,8 +23,11 @@
           <a href="../index.php">Inicio</a>
         </li>
         <li>
-          <a href="productos.php">Productos Nuevos</a>
+          <a href="productos.php">Productos</a>
         </li>
+        <li>
+            <a href="adminproducto.php">Agregar Productos</a>
+          </li>
         <li>
           <a href="about.php">Acerca de</a>
         </li>
