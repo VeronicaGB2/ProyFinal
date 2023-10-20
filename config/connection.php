@@ -5,6 +5,7 @@ class DB {
     private $DBPass = 'gdANEgRApaUD';
     private $dbname = "proyecto_final";
     private $conn;
+    //YoA+!o7nz6k7
 
     // Constructor - Establecer la conexión
     public function __construct() {
