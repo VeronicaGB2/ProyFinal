@@ -44,7 +44,7 @@
                 <td>'.$mensaje['unidades_comprometidas'].'</td>
                 <td>'.$mensaje['costo'].'</td>
                 <td>'.$mensaje['url_imagen'].'</td>
-                <td><a href="#" class="btn btn-seccess" style="background-color: pink;" onClick="editar('.$mensaje['id'].',\''.$mensaje['nombre'].'\',\''.$mensaje['descripcion'].'\',\''.$mensaje['precio'].'\',\''.$mensaje['unidades_en_stock'].'\',\''.$mensaje['punto_de_reorden'].'\',\''.$mensaje['unidades_comprometidas'].'\',\''.$mensaje['costo'].'\',\''.$mensaje['url_imagen'].'\')">Editar</a></td>
+                <td><a href="#" class="btn btn-success" style="background-color: pink;" onclick="editar('.$mensaje['id'].',\''.$mensaje['nombre'].'\',\''.$mensaje['descripcion'].'\',\''.$mensaje['precio'].'\',\''.$mensaje['unidades_en_stock'].'\',\''.$mensaje['punto_de_reorden'].'\',\''.$mensaje['unidades_comprometidas'].'\',\''.$mensaje['costo'].'\',\''.$mensaje['url_imagen'].'\')">Editar</a></td>
                 <td><input type="button" class="btn btn-danger" value="Eliminar" onclick="eliminar('.$mensaje['id'].')"></td>
             </tr>';
         }
