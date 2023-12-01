@@ -17,6 +17,7 @@ session_start();
                 <tr>
                     <th>ITEM ID</th>
                     <th>PRODUCTO</th>
+                    <th>IMAGEN</th>
                     <th>PRECIO</th>
                     <th>CANTIDAD</th>
                     <th>OPCIONES</th>
@@ -32,6 +33,7 @@ session_start();
                         <tr>
                             <td><?php echo $value['id']; ?></td>
                             <td><?php echo $value['nombre']; ?></td>
+                            <td><img width="60px" height="60px" src="<?php echo('../assets' . $value['url_imagen'] . '" alt="' . $value['nombre'] . '"');?>></td>
                             <td id="price_<?php echo $value['id']; ?>"><?php echo $value['precio']; ?></td>
 
                             <td>

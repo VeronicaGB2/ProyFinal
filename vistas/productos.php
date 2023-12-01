@@ -38,6 +38,7 @@
                             <form method="post" action="" id="productForm_' . $index . '">
                               <input type="hidden" name="id" value="' . $product['id'] . '">
                               <input type="hidden" name="nombre" value="' . $product['nombre'] . '">
+                              <input type="hidden" name="url_imagen" value="' . $product['url_imagen'] . '">
                               <input type="hidden" name="precio" value="' . $product['precio'] . '">
                               <label for="cantidad">Cantidad:</label>
                               <input type="number" name="cantidad" value="0" min="1" >

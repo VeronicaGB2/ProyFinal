@@ -129,9 +129,9 @@
                         },
                         success: function(data) {
                             Swal.fire(
-                                '¡Eliminado!',
-                                'Producto eliminado con exito',
-                                'success'
+                               // '¡Eliminado!',
+                                //'Producto eliminado con exito',
+                                //'success'
                             ).then(() => {
                                 refreshTable();
                             })

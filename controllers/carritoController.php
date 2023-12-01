@@ -19,7 +19,9 @@ if (isset($_SESSION['cart'])) {
             "id" => $_POST['id'],
             "nombre" => $_POST['nombre'],
             "precio" => $_POST['precio'],
-            "cantidad" => $_POST['cantidad']
+            "cantidad" => $_POST['cantidad'],
+            "url_imagen" => $_POST['url_imagen']
+
         );
 
         $_SESSION['cart'][] = $item_array;
@@ -30,7 +32,9 @@ if (isset($_SESSION['cart'])) {
         "id" => $_POST['id'],
         "nombre" => $_POST['nombre'],
         "precio" => $_POST['precio'],
-        "cantidad" => $_POST['cantidad']
+        "cantidad" => $_POST['cantidad'],
+        "url_imagen" => $_POST['url_imagen']
+
     );
 
     $_SESSION['cart'][] = $item_array;
