@@ -29,13 +29,6 @@ class ProductController {
             echo "Error: " . $e->getMessage();
         }
     }
-
-
-    
-
-
-
-
 }
 
 
