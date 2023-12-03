@@ -1,8 +1,8 @@
 <?php
 class DB {
     private $servername = "localhost";
-    private $DBUser = 'vero';
-    private $DBPass = '1234';
+    private $DBUser = 'root';
+    private $DBPass = '';
     private $dbname = "proyecto_final";
     private $conn;
 

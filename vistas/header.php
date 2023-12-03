@@ -23,16 +23,16 @@
           <a href="../index.php">Inicio</a>
         </li>
         <li>
-          <a href="productos.php">Productos</a>
+          <a href="./productos.php">Productos</a>
         </li>
         <li>
-            <a href="adminproducto.php">Agregar Productos</a>
+            <a href="./adminproducto.php">Agregar Productos</a>
           </li>
         <li>
-          <a href="about.php">Acerca de</a>
+          <a href="./about.php">Acerca de</a>
         </li>
         <li>
-          <a href="ubicacion.php">Ubicacion</a>
+          <a href="./ubicacion.php">Ubicacion</a>
         </li>
         <li>
           <a href="carrito.php">
