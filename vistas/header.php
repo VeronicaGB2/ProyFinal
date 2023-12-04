@@ -1,3 +1,9 @@
+<?php
+
+define('BASE_URL', 'http://localhost/ProyFinal');
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,12 +13,16 @@
   <title>Productos</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="../assets/css/styless.css">
-  <link rel="stylesheet" href="../assets/css/estilos.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/styless.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/estilos.css">
+
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=AZFk-MgDL2q4CGklzAskEpmxHkQQ9wGuVT44kioXdeNTM2Bfjxi98uU1d-gyS4t65F9gnpnRbwP1uO6m"></script>
+
 </head>
 <header>
   <nav>
@@ -23,16 +33,20 @@
           <a href="../index.php">Inicio</a>
         </li>
         <li>
-          <a href="productos.php">Productos</a>
+          <a href="<?php echo BASE_URL; ?>/vistas/productos.php">Productos</a>
+        </li>
+        <?php
+        if (isset($_SESSION['user']) && $_SESSION['user']['rol'] == 2) {
+          echo '<li><a href="' . BASE_URL . '/vistas/pedidos.php">Mis pedidos</a></li>';
+        }
+        ?>
+        <li>
+          <a href="<?php echo BASE_URL; ?>/vistas/about.php">Acerca de</a>
+
         </li>
         <li>
-            <a href="adminproducto.php">Agregar Productos</a>
-          </li>
-        <li>
-          <a href="about.php">Acerca de</a>
-        </li>
-        <li>
-          <a href="ubicacion.php">Ubicacion</a>
+          <a href="<?php echo BASE_URL; ?>/vistas/ubicacion.php">Ubicacion</a>
+
         </li>
         <li>
           <a href="carrito.php">
@@ -44,7 +58,17 @@
             </span>
           </a>
         </li>
-
+        <li>
+          <?php
+          if (isset($_SESSION['user'])) {
+            // Si hay una sesión, muestra el botón de logout
+            echo '<a href="' . BASE_URL . '/vistas/logout.php">Logout</a>';
+          } else {
+            // Si no hay una sesión, muestra el enlace de login
+            echo '<a href="' . BASE_URL . '/vistas/login.php">Login</a>';
+          }
+          ?>
+        </li>
       </ul>
     </div>
   </nav>

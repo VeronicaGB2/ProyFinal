@@ -1,4 +1,5 @@
 <?php
+require_once '../config/connection.php';
 class funcionM
 {
     private $id_p;
@@ -15,90 +16,35 @@ class funcionM
 
     public function __construct()
     {
-        $con = new Conexion();
-        $this->db = $con->conectar();
+        $con = new DB();
+        $this->db = $con->getConnection();
     }
 
-    //seran funciones que utilzaremos
     public function insertMensaje()
     {
-        $target_file = ""; // Inicializar la variable target_file
-        // Verificar si 'fileImg' está definido en $_FILES
         $record = array();
-        if (isset($_FILES['fileImg']) && $_FILES['fileImg']['error'] === UPLOAD_ERR_OK) {
-            $fileImg = $_FILES['fileImg']['name'];
-            $target_dir = __DIR__ . '/../assets/imagenes/';
-            $target_file = $target_dir . basename($fileImg);
-
-            // Crear el directorio si no existe
-            if (!file_exists($target_dir)) {
-                mkdir($target_dir, 0777, true);
-            }
-
-            // Verificar si el archivo es válido
-            if (is_uploaded_file($_FILES['fileImg']['tmp_name'])) {
-                if (move_uploaded_file($_FILES['fileImg']['tmp_name'], $target_file)) {
-                    echo "El archivo " . htmlspecialchars(basename($_FILES['fileImg']['name'])) . " ha sido subido.";
-                    $record['url_imagen'] =  "/imagenes/".$_FILES['fileImg']['name'];
-                } else {
-                    echo "Lo sentimos, hubo un error subiendo tu archivo.";
-                }
-            } else {
-                echo "Error: Archivo no válido.";
-            }
-        } else {
-            echo "Error al subir el archivo.";
-        }
-
-
-
-        $table = 'productos';
-
-        $record['nombre'] = $_POST['txtNombre'];
-        $record['descripcion'] = $_POST['txtDesc'];
-        $record['precio'] = $_POST['txtPrecio'];
-        $record['unidades_en_stock'] = $_POST['txtUniS'];
-        $record['punto_de_reorden'] = $_POST['txtPuntoOrd'];
-        $record['unidades_comprometidas'] = $_POST['txtUniComp'];
-        $record['costo'] = $_POST['txtCosto'];
-
-        // Verificar si $target_file no está vacío antes de asignarlo a la columna 'url_imagen'
-
-
-
-        $stmt = $this->db->prepare("INSERT INTO $table (nombre, descripcion, precio, unidades_en_stock, punto_de_reorden, unidades_comprometidas, costo, url_imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-
-        $stmt->bind_param('ssssssss', $record['nombre'], $record['descripcion'], $record['precio'], $record['unidades_en_stock'], $record['punto_de_reorden'], $record['unidades_comprometidas'], $record['costo'], $record['url_imagen']);
-
-        $stmt->execute();
-        $stmt->close();
-        //$this->db->autoExecute($table,$record,'INSERT');
-
-    }
-    public function updateMensaje()
-    {
         $target_file = "";
-        $record = array();
+
         if (isset($_FILES['fileImg']) && $_FILES['fileImg']['error'] === UPLOAD_ERR_OK) {
             $fileImg = $_FILES['fileImg']['name'];
             $target_dir = __DIR__ . '/../assets/imagenes/';
             $target_file = $target_dir . basename($fileImg);
 
-            // Crear el directorio si no existe
+            // Create the directory if it doesn't exist
             if (!file_exists($target_dir)) {
                 mkdir($target_dir, 0777, true);
             }
 
-            // Verificar si el archivo es válido
+            // Verify if the file is valid
             if (is_uploaded_file($_FILES['fileImg']['tmp_name'])) {
                 if (move_uploaded_file($_FILES['fileImg']['tmp_name'], $target_file)) {
-                    echo "El archivo " . htmlspecialchars(basename($_FILES['fileImg']['name'])) . " ha sido subido.";
-                    $record['url_imagen'] =  "/imagenes/".$_FILES['fileImg']['name'];
+                    echo "The file " . htmlspecialchars(basename($_FILES['fileImg']['name'])) . " has been uploaded.";
+                    $record['url_imagen'] =  "/imagenes/" . $_FILES['fileImg']['name'];
                 } else {
-                    echo "Lo sentimos, hubo un error subiendo tu archivo.";
+                    echo "Sorry, there was an error uploading your file.";
                 }
             } else {
-                echo "Error: Archivo no válido.";
+                echo "Error: Invalid file.";
             }
         } else {
             $record['url_imagen'] = $_POST['url_imagen'];
@@ -112,53 +58,92 @@ class funcionM
         $record['punto_de_reorden'] = $_POST['txtPuntoOrd'];
         $record['unidades_comprometidas'] = $_POST['txtUniComp'];
         $record['costo'] = $_POST['txtCosto'];
-        $id=$_POST['hddId'];        
 
-  
-        $stmt = $this->db->prepare("UPDATE $table SET nombre=?, descripcion=?, precio=?, unidades_en_stock=?, punto_de_reorden=?, unidades_comprometidas=?, costo=?, url_imagen=? WHERE id=?");
+        $stmt = $this->db->prepare("INSERT INTO $table (nombre, descripcion, precio, unidades_en_stock, punto_de_reorden, unidades_comprometidas, costo, url_imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
-        $stmt->bind_param('ssssssssi', $record['nombre'], $record['descripcion'], $record['precio'], $record['unidades_en_stock'], $record['punto_de_reorden'], $record['unidades_comprometidas'], $record['costo'], $record['url_imagen'], $id);
+        $stmt->execute([$record['nombre'], $record['descripcion'], $record['precio'], $record['unidades_en_stock'], $record['punto_de_reorden'], $record['unidades_comprometidas'], $record['costo'], $record['url_imagen']]);
 
-        $stmt->execute();
-        $stmt->close();
-
-       
+        $stmt->closeCursor();
     }
 
-    
+    public function updateMensaje()
+    {
+        $record = array();
+        $target_file = "";
+
+        if (isset($_FILES['fileImg']) && $_FILES['fileImg']['error'] === UPLOAD_ERR_OK) {
+            $fileImg = $_FILES['fileImg']['name'];
+            $target_dir = __DIR__ . '/../assets/imagenes/';
+            $target_file = $target_dir . basename($fileImg);
+
+            // Create the directory if it doesn't exist
+            if (!file_exists($target_dir)) {
+                mkdir($target_dir, 0777, true);
+            }
+
+            // Verify if the file is valid
+            if (is_uploaded_file($_FILES['fileImg']['tmp_name'])) {
+                if (move_uploaded_file($_FILES['fileImg']['tmp_name'], $target_file)) {
+                    echo "The file " . htmlspecialchars(basename($_FILES['fileImg']['name'])) . " has been uploaded.";
+                    $record['url_imagen'] =  "/imagenes/" . $_FILES['fileImg']['name'];
+                } else {
+                    echo "Sorry, there was an error uploading your file.";
+                }
+            } else {
+                echo "Error: Invalid file.";
+            }
+        } else {
+            $record['url_imagen'] = $_POST['url_imagen'];
+        }
+
+        $table = 'productos';
+        $record['nombre'] = $_POST['txtNombre'];
+        $record['descripcion'] = $_POST['txtDesc'];
+        $record['precio'] = $_POST['txtPrecio'];
+        $record['unidades_en_stock'] = $_POST['txtUniS'];
+        $record['punto_de_reorden'] = $_POST['txtPuntoOrd'];
+        $record['unidades_comprometidas'] = $_POST['txtUniComp'];
+        $record['costo'] = $_POST['txtCosto'];
+        $id = $_POST['hddId'];
+
+        $stmt = $this->db->prepare("UPDATE $table SET nombre=?, descripcion=?, precio=?, unidades_en_stock=?, punto_de_reorden=?, unidades_comprometidas=?, costo=?, url_imagen=? WHERE id=?");
+
+        $stmt->execute([$record['nombre'], $record['descripcion'], $record['precio'], $record['unidades_en_stock'], $record['punto_de_reorden'], $record['unidades_comprometidas'], $record['costo'], $record['url_imagen'], $id]);
+
+        $stmt->closeCursor();
+    }
 
     public function deleteMensaje($id)
     {
         $id = intval($id);
 
         if ($id > 0) {
-            $query = "DELETE FROM productos WHERE id = $id";
-            $res = $this->db->query($query);
-            if ($res) {
-                echo "Registro eliminado correctamente";
+            $stmt = $this->db->prepare("DELETE FROM productos WHERE id = ?");
+            $stmt->execute([$id]);
+
+            if ($stmt->rowCount() > 0) {
+                echo "Record deleted successfully";
             } else {
-                echo "Error al eliminar el registro";
+                echo "Error deleting the record";
             }
         } else {
-            echo "ID no válido para eliminar el registro";
+            echo "Invalid ID to delete the record";
         }
     }
-
 
     public function getAllMensajes()
     {
         $query = "SELECT * FROM productos";
 
         // Execute the query
-        $result = $this->db->query($query);
+        $stmt = $this->db->query($query);
 
-        if ($result) {
-            $rows = $result->fetch_all(MYSQLI_ASSOC);
+        if ($stmt) {
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $rows;
         } else {
-            echo "Error in query: " . $this->db->error;
+            echo "Error in query: " . $this->db->errorInfo()[2];
             return false;
         }
     }
-    
 }

@@ -2,17 +2,19 @@
 class DB {
     private $servername = "localhost";
     private $DBUser = 'vero';
-    private $DBPass = 'gdANEgRApaUD';
+    private $DBPass = 'gdANEgRApaUD'; //1234
     private $dbname = "proyecto_final";
     private $conn;
     //YoA+!o7nz6k7
 
     // Constructor - Establecer la conexión
     public function __construct() {
-        $this->conn = new mysqli($this->servername, $this->DBUser, $this->DBPass, $this->dbname);
-
-        if ($this->conn->connect_error) {
-            die("Conexión fallida: " . $this->conn->connect_error);
+        try {
+            $dsn = "mysql:host=$this->servername;dbname=$this->dbname";
+            $this->conn = new PDO($dsn, $this->DBUser, $this->DBPass);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("Conexión fallida: " . $e->getMessage());
         }
     }
 

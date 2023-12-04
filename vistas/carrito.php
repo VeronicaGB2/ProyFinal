@@ -1,6 +1,10 @@
 <?php
 
 session_start();
+
+
+// Verifica si la sesión está iniciada
+$sesionIniciada = isset($_SESSION['user']);
 ?>
 
 
@@ -63,7 +67,14 @@ session_start();
 
                     <td>
                         <button class="btn btn-warning clearall">Borrar todo</button>
-                        <button class="btn btn-success finalizarCompra" id="finalizarCompraBtn">Finalizar compra</button>
+                        <?php if ($sesionIniciada) { ?>
+
+                            <div id="paypal-button-container"></div>
+
+                        <?php } else { ?>
+
+                            <p style="color: red;">Debes iniciar sesión para finalizar la compra.</p>
+                        <?php } ?>
                     </td>
 
                 </tr>
@@ -73,10 +84,73 @@ session_start();
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
+    <script>
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '<?php echo $total_price; ?>' // Debes definir $total_price en tu código
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Aquí puedes enviar los detalles de la transacción a tu servidor para su procesamiento
+                    // Detalles disponibles en 'details' variable
+                    console.log(details);
+                    finalizarCompra();
+                });
+            }
+        }).render('#paypal-button-container');
+
+
+        function finalizarCompra() {
+            console.log("Entre");
+
+            // Obtén la información del carrito
+            var cartItems = [];
+            $(".quantity").each(function() {
+                var id = $(this).data("id");
+                var quantity = $(this).val();
+                var price = parseFloat($("#price_" + id).text());
+
+                cartItems.push({
+                    id: id,
+                    quantity: quantity,
+                    price: price
+                });
+            });
+
+            // Envía la información al controlador para finalizar la compra
+            $.ajax({
+                method: "POST",
+                url: "../controllers/mainController.php",
+                data: {
+                    action: "finCompra",
+                    cartItems: JSON.stringify(cartItems)
+                },
+                success: function(data) {
+                    Swal.fire(
+                        'Compra finalizada!',
+                        '',
+                        'success'
+                    ).then(() => {
+                       
+                        Window.location.href = "../index.php";
+                    });
+                }
+            });
+        }
+    </script>
 
 
     <script type="text/javascript">
         $(document).ready(function() {
+
+
+
 
             function updateCartCount() {
                 $.ajax({

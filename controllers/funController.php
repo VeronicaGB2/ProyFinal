@@ -1,6 +1,6 @@
 <?php
     require_once '../models/functions.php';
-    require_once '../models/conexion.php';
+ 
     include_once '../assets/adodb5/adodb.inc.php';
 
      if( isset($_GET['opc']) ){

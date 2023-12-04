@@ -1,4 +1,13 @@
-<?php include("header.php"); ?>
+<?php
+session_start();
+if (!isset($_SESSION['user'])) {
+    header('Location: ../login.php');
+    if ($_SESSION['user']['rol'] != 1) {
+        header('Location: ../login.php');
+    }
+}
+?>
+<?php include("admin_header.php"); ?>
 
 <!DOCTYPE html>
 <html lang="en">
