@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $conexion = new DB();
             $conn = $conexion->getConnection();
 
-            $consulta = "INSERT INTO usuarios ( correo, contrasena, nombre, direccion) VALUES (?, ?, ?, ? )";
+            $consulta = "INSERT INTO usuarios ( correo, contrasena, nombre, direccion,rol) VALUES (?, ?, ?, ? ,2)";
             $stmt = $conn->prepare($consulta);
            
             $stmt->execute([ $correo, $pwd, $nombre, $direccion]);

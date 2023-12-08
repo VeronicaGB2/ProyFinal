@@ -19,18 +19,20 @@ if (isset($_SESSION['cart'])) {
             "id" => $_POST['id'],
             "nombre" => $_POST['nombre'],
             "precio" => $_POST['precio'],
-            "cantidad" => $_POST['cantidad']
+            "cantidad" => $_POST['cantidad'],
+            "url_imagen" => $_POST['url_imagen']
         );
 
         $_SESSION['cart'][] = $item_array;
     }
 } else {
-    // El carrito no existe, crea uno nuevo
+    // El producto en el carrito no existe, crea uno nuevo
     $item_array = array(
         "id" => $_POST['id'],
         "nombre" => $_POST['nombre'],
         "precio" => $_POST['precio'],
-        "cantidad" => $_POST['cantidad']
+        "cantidad" => $_POST['cantidad'],
+        "url_imagen" => $_POST['url_imagen']
     );
 
     $_SESSION['cart'][] = $item_array;

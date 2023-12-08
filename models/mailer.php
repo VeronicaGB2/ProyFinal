@@ -1,5 +1,7 @@
 <?php
+
 require '../vendor/autoload.php';
+
 
 class MailerModel {
     private $mailer;

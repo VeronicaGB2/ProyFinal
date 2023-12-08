@@ -1,6 +1,8 @@
 <?php
     session_start();
-    
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+
     require_once '../models/product.php';
     require_once '../models/venta.php';
     require_once '../models/mailer.php';
@@ -78,6 +80,8 @@
             // Inicia el total en 0
             $totalVenta = 0;
     
+            $recibo = array_pop($cartItems);
+
             foreach ($cartItems as $item) {
                 $quantity = $item['quantity'];
                 $price = $item['price'];
@@ -88,7 +92,7 @@
             }
     
             // Inserta la venta en la base de datos y obtén el ID
-            $idVenta = $model->insertVenta($user['id'], $totalVenta);
+            $idVenta = $model->insertVenta($user['id_usuario'], $totalVenta, $recibo);
             // Obtén los detalles del pedido en formato HTML
             $detallePedidoHTML = '<table border="1">
             <tr>

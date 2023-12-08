@@ -21,6 +21,7 @@ $sesionIniciada = isset($_SESSION['user']);
                 <tr>
                     <th>ITEM ID</th>
                     <th>PRODUCTO</th>
+                    <th>IMAGEN</th>
                     <th>PRECIO</th>
                     <th>CANTIDAD</th>
                     <th>OPCIONES</th>
@@ -36,8 +37,8 @@ $sesionIniciada = isset($_SESSION['user']);
                         <tr>
                             <td><?php echo $value['id']; ?></td>
                             <td><?php echo $value['nombre']; ?></td>
+                            <td><img width="60px" height="60px" src="<?php echo('../assets' . $value['url_imagen'] . '" alt="' . $value['nombre'] . '"');?>></td>
                             <td id="price_<?php echo $value['id']; ?>"><?php echo $value['precio']; ?></td>
-
                             <td>
                                 <input type="number" class="quantity" id="quantity" value="<?php echo $value['cantidad']; ?>" data-id="<?php echo $value['id']; ?>">
                             </td>
@@ -66,10 +67,10 @@ $sesionIniciada = isset($_SESSION['user']);
                     <td class="total-price" id="total-price"><?php echo number_format($total_price, 2); ?></td>
 
                     <td>
-                        <button class="btn btn-warning clearall">Borrar todo</button>
-                        <?php if ($sesionIniciada) { ?>
+                        <button class="btn btn-warning clearall">Borrar todo</button><br>
+                        <?php if ($sesionIniciada) { ?><br>
 
-                            <div id="paypal-button-container"></div>
+                            <div id="paypal-button-container"></div><br>
 
                         <?php } else { ?>
 
@@ -90,6 +91,7 @@ $sesionIniciada = isset($_SESSION['user']);
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
+                            currency_code: 'MXN',
                             value: '<?php echo $total_price; ?>' // Debes definir $total_price en tu código
                         }
                     }]
@@ -100,13 +102,13 @@ $sesionIniciada = isset($_SESSION['user']);
                     // Aquí puedes enviar los detalles de la transacción a tu servidor para su procesamiento
                     // Detalles disponibles en 'details' variable
                     console.log(details);
-                    finalizarCompra();
+                    finalizarCompra(details.id);
                 });
             }
         }).render('#paypal-button-container');
 
 
-        function finalizarCompra() {
+        function finalizarCompra(id_pago) {
             console.log("Entre");
 
             // Obtén la información del carrito
@@ -122,6 +124,8 @@ $sesionIniciada = isset($_SESSION['user']);
                     price: price
                 });
             });
+            cartItems.push(id_pago);
+
 
             // Envía la información al controlador para finalizar la compra
             $.ajax({
@@ -138,12 +142,13 @@ $sesionIniciada = isset($_SESSION['user']);
                         'success'
                     ).then(() => {
                        
-                        Window.location.href = "../index.php";
+                        window.location.reload();
                     });
                 }
             });
         }
     </script>
+
 
 
     <script type="text/javascript">

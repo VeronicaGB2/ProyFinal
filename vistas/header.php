@@ -21,7 +21,7 @@ define('BASE_URL', 'http://localhost/ProyFinal');
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.9/sweetalert2.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-  <script src="https://www.paypal.com/sdk/js?client-id=AZFk-MgDL2q4CGklzAskEpmxHkQQ9wGuVT44kioXdeNTM2Bfjxi98uU1d-gyS4t65F9gnpnRbwP1uO6m"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=AZFk-MgDL2q4CGklzAskEpmxHkQQ9wGuVT44kioXdeNTM2Bfjxi98uU1d-gyS4t65F9gnpnRbwP1uO6m&currency=MXN"></script>
 
 </head>
 <header>

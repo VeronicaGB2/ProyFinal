@@ -2,7 +2,7 @@
 class DB {
     private $servername = "localhost";
     private $DBUser = 'vero';
-    private $DBPass = 'gdANEgRApaUD'; //1234
+    private $DBPass = '1234'; //1234
     private $dbname = "proyecto_final";
     private $conn;
     //YoA+!o7nz6k7

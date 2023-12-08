@@ -10,12 +10,13 @@ class VentaModel
         $this->db = new DB();
     }
 
-    public function insertVenta($clienteID, $total)
+    public function insertVenta($clienteID, $total, $id_recibo)
     {
         $conn = $this->db->getConnection();
-        $stmt = $conn->prepare("INSERT INTO ventas (ClienteID, TotalVenta) VALUES (?, ?)");
+        $stmt = $conn->prepare("INSERT INTO ventas (ClienteID, TotalVenta, pago) VALUES (?, ?, ?)");
         $stmt->bindParam(1, $clienteID);
         $stmt->bindParam(2, $total);
+        $stmt->bindParam(3, $id_recibo);
         $stmt->execute();
         $lastInsertId = $conn->lastInsertId();
         $stmt->closeCursor();

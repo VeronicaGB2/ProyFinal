@@ -120,38 +120,53 @@ if (!isset($_SESSION['user'])) {
 
 
         function eliminar(idMsj) {
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: '¡No podrás revertir esto!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminarlo'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: "POST",
-                        url: "../controllers/funController.php?opc=3",
-                        data: {
-                            idMsj: idMsj
-                        },
-                        success: function(data) {
-                            Swal.fire(
-                                '¡Eliminado!',
-                                'Producto eliminado con exito',
-                                'success'
-                            ).then(() => {
-                                refreshTable();
-                            })
-
-                        },
-                    })
-
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: '¡No podrás revertir esto!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminarlo'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "POST",
+                url: "../controllers/funController.php?opc=3",
+                data: {
+                    idMsj: idMsj
+                },
+                success: function(data) {
+                  if(data==='unidades'){
+                    Swal.fire(
+                        'Error',
+                        'Este producto tiene unidades comprometidas y no puede ser eliminado',
+                        'error'
+                    );
+                    return;
+                  }
+                  Swal.fire(
+                    'Exito',
+                    'Producto eliminado correctamente del sistema',
+                    'success'
+                  ).then(()=>{
+                    window.location.reload();
+                  });
+                  
+                },
+                error: function() {
+                    Swal.fire(
+                        'Error',
+                        'Hubo un error al comunicarse con el administrador',
+                        'error'
+                    );
                 }
-            })
-
+            });
         }
+    });
+}
+
+
     </script>
 </head>
 

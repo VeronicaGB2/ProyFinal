@@ -67,69 +67,104 @@ class funcionM
     }
 
     public function updateMensaje()
-    {
-        $record = array();
-        $target_file = "";
+{
+    $id = $_POST['hddId'] ?? '';
 
+    if (!empty($id)) {
+        $target_file = "";
+        $record = array();
+
+        // Manejo de la imagen si se está subiendo
         if (isset($_FILES['fileImg']) && $_FILES['fileImg']['error'] === UPLOAD_ERR_OK) {
             $fileImg = $_FILES['fileImg']['name'];
             $target_dir = __DIR__ . '/../assets/imagenes/';
             $target_file = $target_dir . basename($fileImg);
 
-            // Create the directory if it doesn't exist
+            // Crear el directorio si no existe
             if (!file_exists($target_dir)) {
                 mkdir($target_dir, 0777, true);
             }
 
-            // Verify if the file is valid
+            // Verificar si el archivo es válido
             if (is_uploaded_file($_FILES['fileImg']['tmp_name'])) {
                 if (move_uploaded_file($_FILES['fileImg']['tmp_name'], $target_file)) {
-                    echo "The file " . htmlspecialchars(basename($_FILES['fileImg']['name'])) . " has been uploaded.";
+                    echo "El archivo " . htmlspecialchars(basename($_FILES['fileImg']['name'])) . " ha sido subido.";
                     $record['url_imagen'] =  "/imagenes/" . $_FILES['fileImg']['name'];
                 } else {
-                    echo "Sorry, there was an error uploading your file.";
+                    echo "Lo sentimos, hubo un error subiendo tu archivo.";
                 }
             } else {
-                echo "Error: Invalid file.";
+                echo "Error: Archivo no válido.";
             }
         } else {
-            $record['url_imagen'] = $_POST['url_imagen'];
+            $record['url_imagen'] = $_POST['url_imagen'] ?? '';
         }
 
         $table = 'productos';
-        $record['nombre'] = $_POST['txtNombre'];
-        $record['descripcion'] = $_POST['txtDesc'];
-        $record['precio'] = $_POST['txtPrecio'];
-        $record['unidades_en_stock'] = $_POST['txtUniS'];
-        $record['punto_de_reorden'] = $_POST['txtPuntoOrd'];
-        $record['unidades_comprometidas'] = $_POST['txtUniComp'];
-        $record['costo'] = $_POST['txtCosto'];
-        $id = $_POST['hddId'];
 
-        $stmt = $this->db->prepare("UPDATE $table SET nombre=?, descripcion=?, precio=?, unidades_en_stock=?, punto_de_reorden=?, unidades_comprometidas=?, costo=?, url_imagen=? WHERE id=?");
+        $record['nombre'] = $_POST['txtNombre'] ?? '';
+        $record['descripcion'] = $_POST['txtDesc'] ?? '';
+        $record['precio'] = $_POST['txtPrecio'] ?? '';
+        $record['unidades_en_stock'] = $_POST['txtUniS'] ?? '';
+        $record['punto_de_reorden'] = $_POST['txtPuntoOrd'] ?? '';
+        $record['unidades_comprometidas'] = $_POST['txtUniComp'] ?? '';
+        $record['costo'] = $_POST['txtCosto'] ?? '';
 
-        $stmt->execute([$record['nombre'], $record['descripcion'], $record['precio'], $record['unidades_en_stock'], $record['punto_de_reorden'], $record['unidades_comprometidas'], $record['costo'], $record['url_imagen'], $id]);
+        $sql = "UPDATE $table SET nombre=?, descripcion=?, precio=?, unidades_en_stock=?, punto_de_reorden=?, unidades_comprometidas=?, costo=?, url_imagen=? WHERE id=?";
 
-        $stmt->closeCursor();
+        // Obteniendo la conexión existente del constructor
+        $stmt = $this->db->prepare($sql);
+
+        $params = array(
+            $record['nombre'],
+            $record['descripcion'],
+            $record['precio'],
+            $record['unidades_en_stock'],
+            $record['punto_de_reorden'],
+            $record['unidades_comprometidas'],
+            $record['costo'],
+            $record['url_imagen'],
+            $id
+        );
+
+        $result = $stmt->execute($params);
+
+        if ($result === false) {
+            echo "Error al actualizar datos: " . $stmt->errorInfo()[2];
+        } else {
+            echo "Datos actualizados correctamente";
+        }
+    } else {
+        echo "ID no válido para actualizar el registro";
     }
+}
 
-    public function deleteMensaje($id)
-    {
+
+    public function deleteMensaje($id){
         $id = intval($id);
 
         if ($id > 0) {
-            $stmt = $this->db->prepare("DELETE FROM productos WHERE id = ?");
-            $stmt->execute([$id]);
+            $getUnidadesComprometidas = $this->db->prepare("SELECT unidades_comprometidas FROM productos WHERE id = ?");
+            $getUnidadesComprometidas->execute([$id]);
+            $unidadesComprometidas = $getUnidadesComprometidas->fetchColumn();
 
-            if ($stmt->rowCount() > 0) {
-                echo "Record deleted successfully";
+            if ($unidadesComprometidas != 0) {
+                echo "unidades";
             } else {
-                echo "Error deleting the record";
+                $stmt = $this->db->prepare("DELETE FROM productos WHERE id = ?");
+                $stmt->execute([$id]);
+
+                if ($stmt->rowCount() > 0) {
+                    echo "Registro eliminado correctamente";
+                } else {
+                    echo "Error al eliminar el registro";
+                }
             }
         } else {
-            echo "Invalid ID to delete the record";
+            echo "ID no válido para eliminar el registro";
         }
     }
+
 
     public function getAllMensajes()
     {
@@ -147,3 +182,4 @@ class funcionM
         }
     }
 }
+?>

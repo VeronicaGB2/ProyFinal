@@ -23,22 +23,25 @@ session_start();
     <div id="nav-bg"></div><!--Solo es una division en la página-->
 
     <div class="About">
-        <div class="contenedor__about">
+        <div class="contenedor__about"><br>
+        <br>
             <img src="../assets/imagenes/mis.png" alt="mision">
             <h1>Mision</h1>
-            <p>Llevar la felicidad y dulzura al día de nuestros clientes a través de una experiencia extraordinaria.</p>
+            <p>Llevar la felicidad y dulzura al día de nuestros clientes a través de una experiencia extraordinaria.</p><br>
         </div>
-        <div class="contenedor__about">
+        <div class="contenedor__about"><br>
+        <br>
             <img src="../assets/imagenes/vision.png" alt="vision">
             <h1>Vision</h1>
             <p>Crear un mejor día dulce y colorido para todos los estudiantes del TecNM en Celaya. Buscando ser el
-                destino de varios con experiencia única y deliciosa al satisfacer con las golosinas. </p>
+                destino de varios con experiencia única y deliciosa al satisfacer con las golosinas. </p><br>
         </div>
-        <div class="contenedor__about">
+        <div class="contenedor__about"><br>
+        <br>
             <img src="../assets/imagenes/valores.png" alt="valores">
             <h1>Valores</h1>
             <p class="text">Compromiso con la Diversidad: Valoramos la diversidad y la inclusión en todos los aspectos
-                de nuestro negocio, promoviendo un ambiente acogedor para todos..</p>
+                de nuestro negocio, promoviendo un ambiente acogedor para todos..</p><br>
         </div>
 
     </div>

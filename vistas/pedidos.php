@@ -6,7 +6,7 @@ require_once '../models/venta.php';
 // Obtén los datos de las ventas desde tu controlador
 $user = $_SESSION['user'];
 $model = new VentaModel();
-$ventas = $model->getUserVentas($user['id']);
+$ventas = $model->getUserVentas($user['id_usuario']);
 ?>
 
 <!DOCTYPE html>
